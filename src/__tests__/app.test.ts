@@ -179,27 +179,28 @@ describe('TASK 2 & 4 — NEXORA Validation Suite', () => {
   });
 
   // Test 7: Provider Architecture & Missing Credentials Behavior
-  it('MarketDataService provider router declares capabilities and rejects unconfigured equities with clear error', async () => {
+  it('MarketDataService provider router declares capabilities and rejects unavailable or invalid symbols with clear error', async () => {
     const service = new MarketDataService();
     const capabilities = service.getProviderCapabilities();
 
-    assert.ok(capabilities.length >= 3, 'Must list CoinGecko, Finnhub, and Twelve Data');
+    assert.ok(capabilities.length >= 4, 'Must list CoinGecko, Yahoo Finance, Finnhub, and Twelve Data');
     const coinGecko = capabilities.find((c) => c.name.includes('CoinGecko'));
     assert.ok(coinGecko, 'CoinGecko capability must be registered');
     assert.strictEqual(coinGecko.supportsCrypto, true);
-    assert.strictEqual(coinGecko.supportsEquities, false);
 
-    // If FINNHUB_API_KEY is not set in test environment, querying an equity like AAPL must reject with the exact message
-    if (!process.env.FINNHUB_API_KEY && !process.env.TWELVE_DATA_API_KEY) {
-      await assert.rejects(
-        async () => {
-          await service.getQuote('AAPL');
-        },
-        (err: Error) => {
-          return err.message.includes('Live market data is currently unavailable. Check your provider configuration or connection.');
-        },
-        'Expected missing equity credentials to throw provider unavailable error without mock fallback'
-      );
-    }
+    const yahoo = capabilities.find((c) => c.name.includes('Yahoo Finance'));
+    assert.ok(yahoo, 'Yahoo Finance capability must be registered');
+    assert.strictEqual(yahoo.configured, true);
+
+    // Querying an invalid symbol must reject with the required user-facing error without mock fallback
+    await assert.rejects(
+      async () => {
+        await service.getQuote('INVALID_TICKER_99999_XYZ');
+      },
+      (err: Error) => {
+        return err.message.includes('Live market data is currently unavailable. Check your provider configuration or connection.');
+      },
+      'Expected invalid or unavailable symbol to throw standard unavailable error'
+    );
   });
 });

@@ -2,46 +2,58 @@ import { CandleData, MarketQuote, MarketStatus, ProviderCapability, SymbolSearch
 import { FinnhubProvider } from './FinnhubProvider';
 import { CoinGeckoProvider } from './CoinGeckoProvider';
 import { TwelveDataProvider } from './TwelveDataProvider';
+import { YahooFinanceProvider } from './YahooFinanceProvider';
 
 export class MarketDataService {
   private finnhub: FinnhubProvider;
   private coinGecko: CoinGeckoProvider;
   private twelveData: TwelveDataProvider;
+  private yahooFinance: YahooFinanceProvider;
 
   constructor() {
     this.finnhub = new FinnhubProvider();
     this.coinGecko = new CoinGeckoProvider();
     this.twelveData = new TwelveDataProvider();
+    this.yahooFinance = new YahooFinanceProvider();
   }
 
   getProviderCapabilities(): ProviderCapability[] {
     return [
       {
-        name: 'CoinGecko (Crypto Spot)',
+        name: 'CoinGecko (Crypto Spot - 100% Free, No Key Required)',
         configured: this.coinGecko.isConfigured(),
         supportsRealTimeWs: false,
         supportsCandles: true,
         supportsCrypto: true,
         supportsEquities: false,
-        rateLimitInfo: 'Public tier: 10-30 calls/minute',
+        rateLimitInfo: 'Free Public: 10-30 calls/min (Active)',
       },
       {
-        name: 'Finnhub (US Equities & Global)',
+        name: 'Yahoo Finance (US Equities - 100% Free, No Key Required)',
+        configured: this.yahooFinance.isConfigured(),
+        supportsRealTimeWs: false,
+        supportsCandles: true,
+        supportsCrypto: true,
+        supportsEquities: true,
+        rateLimitInfo: 'Free Public: Real-time & daily quotes (Active)',
+      },
+      {
+        name: 'Finnhub (US Equities & Real-time Trades)',
         configured: this.finnhub.isConfigured(),
         supportsRealTimeWs: true,
         supportsCandles: true,
         supportsCrypto: true,
         supportsEquities: true,
-        rateLimitInfo: 'Free tier: 60 calls/minute, WebSocket included',
+        rateLimitInfo: 'Free Forever Tier: 60 calls/min + WebSocket',
       },
       {
-        name: 'Twelve Data',
+        name: 'Twelve Data (Multi-Asset Time-Series)',
         configured: this.twelveData.isConfigured(),
         supportsRealTimeWs: true,
         supportsCandles: true,
         supportsCrypto: true,
         supportsEquities: true,
-        rateLimitInfo: 'Free tier: 8 calls/minute, 800 calls/day',
+        rateLimitInfo: 'Free Tier: 8 calls/min, 800 calls/day',
       },
     ];
   }
@@ -65,51 +77,89 @@ export class MarketDataService {
   async getQuote(symbol: string): Promise<MarketQuote> {
     const clean = symbol.trim().toUpperCase();
 
-    // Route crypto symbols to CoinGecko
+    // Route crypto symbols to CoinGecko (100% Free, no key needed)
     if (this.isCryptoSymbol(clean)) {
       try {
         return await this.coinGecko.getQuote(clean);
       } catch (err: any) {
-        // Fall back to Finnhub if configured
         if (this.finnhub.isConfigured()) {
           return await this.finnhub.getQuote(clean);
         }
-        throw err;
+        try {
+          return await this.yahooFinance.getQuote(`${clean}-USD`);
+        } catch {
+          throw new Error('Live market data is currently unavailable. Check your provider configuration or connection.');
+        }
       }
     }
 
-    // Equities & Indices
+    // Equities & Indices (Finnhub -> Twelve Data -> Yahoo Finance Free Public)
     if (this.finnhub.isConfigured()) {
-      return await this.finnhub.getQuote(clean);
+      try {
+        return await this.finnhub.getQuote(clean);
+      } catch {
+        // Fall back to Yahoo Finance if Finnhub encounters issues
+      }
     }
 
     if (this.twelveData.isConfigured()) {
-      return await this.twelveData.getQuote(clean);
+      try {
+        return await this.twelveData.getQuote(clean);
+      } catch {
+        // Fall back to Yahoo Finance
+      }
     }
 
-    throw new Error(
-      'Live market data is currently unavailable. Check your provider configuration or connection. (Equities require FINNHUB_API_KEY or TWELVE_DATA_API_KEY in server environment)'
-    );
+    // 100% Free Public Yahoo Finance integration (No API key needed)
+    try {
+      return await this.yahooFinance.getQuote(clean);
+    } catch {
+      throw new Error(
+        'Live market data is currently unavailable. Check your provider configuration or connection.'
+      );
+    }
   }
 
   async getCandles(symbol: string, resolution: string, from: number, to: number): Promise<CandleData[]> {
     const clean = symbol.trim().toUpperCase();
 
     if (this.isCryptoSymbol(clean)) {
-      return await this.coinGecko.getCandles(clean, resolution, from, to);
+      try {
+        return await this.coinGecko.getCandles(clean, resolution, from, to);
+      } catch {
+        // Fall back to Yahoo Finance crypto pair
+        try {
+          return await this.yahooFinance.getCandles(`${clean}-USD`, resolution, from, to);
+        } catch {
+          throw new Error('Live market data is currently unavailable. Check your provider configuration or connection.');
+        }
+      }
     }
 
     if (this.finnhub.isConfigured()) {
-      return await this.finnhub.getCandles(clean, resolution, from, to);
+      try {
+        return await this.finnhub.getCandles(clean, resolution, from, to);
+      } catch {
+        // Fall back to Yahoo Finance
+      }
     }
 
     if (this.twelveData.isConfigured()) {
-      return await this.twelveData.getCandles(clean, resolution, from, to);
+      try {
+        return await this.twelveData.getCandles(clean, resolution, from, to);
+      } catch {
+        // Fall back to Yahoo Finance
+      }
     }
 
-    throw new Error(
-      'Live market data is currently unavailable. Check your provider configuration or connection.'
-    );
+    // 100% Free Public Yahoo Finance fallback
+    try {
+      return await this.yahooFinance.getCandles(clean, resolution, from, to);
+    } catch {
+      throw new Error(
+        'Live market data is currently unavailable. Check your provider configuration or connection.'
+      );
+    }
   }
 
   async getMarketStatus(exchange?: string): Promise<MarketStatus> {
@@ -119,34 +169,29 @@ export class MarketDataService {
     if (this.finnhub.isConfigured()) {
       return await this.finnhub.getMarketStatus(exchange);
     }
-    // Return standard session calculation
-    return await this.finnhub.getMarketStatus(exchange);
+    return await this.yahooFinance.getMarketStatus(exchange);
   }
 
   async searchSymbols(query: string): Promise<SymbolSearchResult[]> {
     const results: SymbolSearchResult[] = [];
 
     // Search crypto
-    const cryptoHits = await this.coinGecko.searchSymbols(query);
-    results.push(...cryptoHits);
+    try {
+      const cryptoHits = await this.coinGecko.searchSymbols(query);
+      results.push(...cryptoHits);
+    } catch {
+      // Ignore
+    }
 
-    // Search equities if configured
-    if (this.finnhub.isConfigured()) {
-      try {
-        const equityHits = await this.finnhub.searchSymbols(query);
-        results.push(...equityHits);
-      } catch {
-        // Ignore search errors
-      }
-    } else if (this.twelveData.isConfigured()) {
-      try {
-        const equityHits = await this.twelveData.searchSymbols(query);
-        results.push(...equityHits);
-      } catch {
-        // Ignore
-      }
+    // Search equities via Yahoo Finance (Free, no key)
+    try {
+      const equityHits = await this.yahooFinance.searchSymbols(query);
+      results.push(...equityHits);
+    } catch {
+      // Ignore
     }
 
     return results;
   }
 }
+
