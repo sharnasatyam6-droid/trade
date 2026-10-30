@@ -1,0 +1,1003 @@
+# ROLE AND MISSION
+
+Act as a principal software architect, senior full-stack engineer, AI product engineer, WebGL developer, cybersecurity engineer, UI/UX director, and hackathon product strategist.
+
+Build a production-minded, extensible web application called:
+
+NEXORA — Intelligence Beyond Search
+
+Tagline:
+"Explore the web. Understand the universe. Control your digital world."
+
+The application must combine an immersive, cinematic universe interface with a functional AI-powered search experience, research tools, financial analytics, and a modular plugin architecture.
+
+This is not a static landing page, a design mockup, or a collection of non-functional buttons.
+
+The objective is to create a polished, demonstrable hackathon prototype that can be deployed on Vercel and extended into a real product.
+
+Prioritize:
+1. Visual quality.
+2. Functional core features.
+3. Reliable application architecture.
+4. Real integrations where available.
+5. Performance and accessibility.
+6. Security.
+7. Future extensibility.
+8. A compelling hackathon demonstration.
+
+Do not claim that the application is production-ready merely because it compiles.
+
+Do not claim that external integrations work unless they have been implemented and tested.
+
+Do not stop after generating the home page.
+
+Build the actual application, including its routes, components, API endpoints, loading states, error states, configuration, and deployment documentation.
+
+--------------------------------------------------
+1. PRODUCT IDENTITY
+--------------------------------------------------
+
+Product name: NEXORA
+
+Product category:
+AI Search, Research, Market Intelligence, and Productivity Platform.
+
+Brand personality:
+- Intelligent.
+- Cinematic.
+- Precise.
+- Futuristic.
+- Professional.
+- Premium.
+- Technically sophisticated.
+
+Avoid:
+- Cartoon-style planets.
+- Cheap gaming interfaces.
+- Excessive neon effects.
+- Excessive glassmorphism.
+- Random decorative elements that reduce readability.
+- Fake testimonials.
+- Fabricated user statistics.
+- Fake financial data presented as live.
+- Buttons without meaningful actions.
+
+The application should resemble a serious technology product developed by a capable engineering team.
+
+--------------------------------------------------
+2. TECHNOLOGY STACK
+--------------------------------------------------
+
+Build a TypeScript-first application.
+
+Preferred stack:
+
+- Next.js using the App Router.
+- React.
+- TypeScript with strict type checking.
+- Tailwind CSS.
+- Accessible component primitives.
+- Lucide icons.
+- Framer Motion or Motion for interface animations.
+- React Three Fiber and Three.js for the interactive universe.
+- Recharts or Lightweight Charts for financial visualizations.
+- Zod for request validation.
+- A server-side integration layer for external APIs.
+- Neon PostgreSQL for persistent application data when persistence is needed.
+- Vercel for deployment.
+
+Use compatible, mutually consistent package versions.
+
+Before installing dependencies, inspect the current project structure and package configuration.
+
+If the environment cannot support a particular dependency, select a compatible alternative rather than breaking the application.
+
+Avoid unnecessary libraries and duplicated functionality.
+
+Use npm as the default package manager unless the existing project already uses another package manager.
+
+Create reusable components and maintain clear separation between presentation, business logic, API integrations, and persistence.
+
+--------------------------------------------------
+3. THE LIVING UNIVERSE BACKGROUND
+--------------------------------------------------
+
+Create an immersive universe that serves as the visual signature of NEXORA.
+
+The universe must feel alive rather than resembling a static wallpaper.
+
+A. PLANET EARTH
+
+Create a visually detailed, spherical Earth using Three.js.
+
+Requirements:
+- Real spherical geometry.
+- Procedural or appropriately licensed Earth textures.
+- Slowly rotating Earth.
+- Realistic atmospheric glow.
+- Subtle blue atmospheric scattering.
+- Night-side illumination when technically feasible.
+- Glowing city-light textures on the night side.
+- Visible continents and oceans.
+- Soft sunlight and directional lighting.
+- Subtle cloud layer.
+- A restrained, cinematic outer glow.
+- Smooth transitions between lighting conditions.
+
+The Earth must rotate around its own axis.
+
+Use a physically plausible rotation speed for the visualization, but allow the product to accelerate or pause the visual rotation.
+
+Do not confuse Earth rotation with orbital movement.
+
+Create an optional camera-control mode that allows users to explore the scene without interfering with the search interface.
+
+B. SATELLITES AND ORBITS
+
+Add multiple artificial satellites moving along different orbital paths.
+
+Requirements:
+- Several orbital trajectories.
+- Different orbital inclinations.
+- Smooth satellite movement.
+- Small metallic satellite models.
+- Solar panels where practical.
+- Subtle moving highlights.
+- Optional orbital-path visibility.
+- Depth-aware rendering.
+- Occasional faint orbital trails.
+
+Satellites must move along their trajectories rather than randomly teleporting across the screen.
+
+Use deterministic animation based on elapsed time.
+
+C. STARS AND DEEP SPACE
+
+Create a layered star field containing:
+- Distant stars.
+- Subtle nebula-like structures.
+- Sparse glowing particles.
+- Depth-based parallax.
+- A restrained blue, violet, and cyan color palette.
+- Optional distant celestial objects.
+
+Create a sense of depth without filling the screen with distracting particles.
+
+D. PERFORMANCE
+
+The universe must remain usable on ordinary laptops.
+
+Requirements:
+- Lazy-load the 3D scene.
+- Limit particle counts according to device capability.
+- Reduce effects on smaller devices.
+- Respect prefers-reduced-motion.
+- Pause or reduce animation when the tab is inactive.
+- Handle WebGL initialization failures.
+- Provide a beautiful CSS-based fallback background.
+- Avoid blocking the search interface while assets load.
+
+The background must never make the main search interface unusable.
+
+--------------------------------------------------
+4. VISUAL DESIGN SYSTEM
+--------------------------------------------------
+
+Create a distinctive visual identity.
+
+Suggested palette:
+
+- Deep-space background: #050713
+- Secondary background: #0A1022
+- Primary electric blue: #48C8FF
+- Violet: #9875FF
+- Soft white: #EDF4FF
+- Muted text: #94A3B8
+- Success: #4ADE80
+- Warning: #FBBF24
+- Error: #FB7185
+
+Use colors consistently through design tokens.
+
+Use:
+- Deep layered backgrounds.
+- Controlled transparency.
+- Thin illuminated borders.
+- Subtle radial gradients.
+- Restrained shadows.
+- High-quality typography.
+- Carefully spaced layouts.
+- Smooth transitions.
+- Responsive grids.
+- Consistent icon sizing.
+
+Typography should communicate precision and technical sophistication.
+
+Use a readable sans-serif font for interface content.
+
+A monospace font may be used for system metadata, telemetry, and technical labels.
+
+Avoid making every text element glow.
+
+The visual hierarchy must remain clear.
+
+--------------------------------------------------
+5. FIVE PRIMARY APPLICATION AREAS
+--------------------------------------------------
+
+Create at least FIVE fully designed, distinct application areas.
+
+Do not merely place five buttons on the home page.
+
+Each area must have a clear purpose and meaningful interaction.
+
+AREA 1 — HOME / UNIVERSAL SEARCH
+
+Route:
+/
+
+This is the main cinematic entry point.
+
+Include:
+- Brand identity.
+- Main navigation.
+- Interactive universe background.
+- Central search interface.
+- Search category selector.
+- AI search toggle.
+- Voice-search button where browser support exists.
+- Recent searches.
+- Suggested research queries.
+- Quick-access tool cards.
+- Keyboard shortcut hints.
+- Connection and system status indicators.
+
+The home page must immediately communicate what NEXORA does.
+
+Keep the search field as the main focal point.
+
+AREA 2 — AI RESEARCH
+
+Route:
+/research
+
+Create a research workspace that can:
+- Accept natural-language questions.
+- Search configured information sources.
+- Generate AI-assisted summaries.
+- Display source references.
+- Distinguish sourced facts from generated explanations.
+- Organize results into readable sections.
+- Save research sessions when persistence is configured.
+- Export reports when implemented.
+
+Include:
+- Search history.
+- Research cards.
+- Source panels.
+- Loading skeletons.
+- Empty states.
+- Error recovery.
+- A clear indication when a source is unavailable.
+
+Use a real search provider and an actual model API when configured.
+
+Do not fabricate citations.
+
+If no search provider is configured, explicitly indicate that live web research is unavailable and provide a useful local demonstration mode.
+
+AREA 3 — MARKET INTELLIGENCE
+
+Route:
+/markets
+
+Create a financial market analysis workspace.
+
+Include:
+- Market overview.
+- Searchable instrument watchlist.
+- Interactive price charts.
+- Multiple time ranges where supported.
+- OHLC or candlestick charts when the data source supports them.
+- Volume visualization when available.
+- Instrument details.
+- Price-change indicators.
+- Market-data timestamps.
+- Data-source attribution.
+- Loading and error states.
+- A clear demo-data indicator when using simulated information.
+
+Support the architecture for:
+- Stocks.
+- ETFs.
+- Selected indices.
+- Cryptocurrency markets.
+
+Only enable instruments and markets supported by the configured provider.
+
+Do not fabricate live prices.
+
+Do not scrape websites in violation of their terms.
+
+Create a market-data adapter interface so the provider can be replaced without rewriting the UI.
+
+TRADING FUNCTIONALITY BOUNDARY:
+
+The initial implementation is a market intelligence and paper-trading demonstration.
+
+Do not execute real financial transactions.
+
+Implement paper trading only if a coherent simulated portfolio and order lifecycle can be completed.
+
+A paper-trading demonstration should support:
+- Simulated portfolio.
+- Cash balance.
+- Positions.
+- Buy and sell simulations.
+- Order history.
+- Risk indicators.
+- Clearly simulated fills.
+- Resettable demo state.
+
+Do not label simulated executions as real trades.
+
+Design the architecture so a separately authorized brokerage integration can be considered in a future version.
+
+Real-money execution must not be activated by a frontend toggle or a demonstration API.
+
+AREA 4 — TOOL LAB
+
+Route:
+/tools
+
+Create a searchable, categorized tool directory.
+
+Initial tool categories:
+
+1. Search and Research.
+2. AI Productivity.
+3. Market Intelligence.
+4. Developer Utilities.
+5. Cybersecurity Learning.
+6. Data Analysis.
+
+Implement a modular tool registry.
+
+Each tool must declare:
+- Unique ID.
+- Display name.
+- Description.
+- Category.
+- Icon.
+- Route.
+- Availability status.
+- Required configuration.
+- Required permissions.
+- Whether it is a demonstration or a real integration.
+
+The registry must allow new tools to be added without rewriting the entire application.
+
+Create a dedicated tool page or panel for each implemented tool.
+
+Implement a few useful initial utilities, such as:
+- JSON formatter and validator.
+- Text summarizer.
+- URL structure analyzer.
+- Research note organizer.
+- Market watchlist manager.
+
+These tools must perform real local computations or use actual configured services.
+
+Do not display tools as operational if they have no implementation.
+
+AREA 5 — USER WORKSPACE
+
+Route:
+/workspace
+
+Create a personalized workspace with:
+- Saved research.
+- Recent searches.
+- Watchlists.
+- Saved tools.
+- User preferences.
+- Theme and motion settings.
+- Export options when implemented.
+- A clear empty state for new users.
+
+Use local persistence for non-sensitive preferences when appropriate.
+
+Use authenticated server-side persistence if accounts and shared cross-device data are implemented.
+
+Do not store API secrets in browser storage.
+
+Do not claim that user data syncs across devices unless a backend implements it.
+
+--------------------------------------------------
+6. SEARCH EXPERIENCE
+--------------------------------------------------
+
+The search bar is the central interaction of NEXORA.
+
+Create a premium, custom search component.
+
+Visual requirements:
+- Large, carefully proportioned search field.
+- Subtle cyan-violet illuminated border.
+- Fine animated particles near the perimeter.
+- Small orbital nodes.
+- Thin circuit-like decorative paths.
+- Restrained connection-line animations.
+- A clear text cursor.
+- Smooth focus transitions.
+- Keyboard-accessible controls.
+
+Decorative circuit lines must not obstruct typing or reduce readability.
+
+Implement a search interaction with these states:
+
+1. Idle.
+2. Focused.
+3. Typing.
+4. Submitting.
+5. Loading.
+6. Results available.
+7. No results.
+8. Error.
+
+When the user types:
+- Display the entered text immediately.
+- Do not delay normal text entry for animations.
+- Show a subtle, optional writing-trail effect.
+- Keep the input fully editable.
+
+ASTROLOGER-INSPIRED TYPING EFFECT:
+
+Create a subtle visual effect inspired by ink appearing from a fine, luminous pen.
+
+Do not use an actual astrology or handwriting font that compromises readability.
+
+The effect should be decorative rather than replacing the native input.
+
+Possible implementation:
+- Render a temporary animated stroke behind or around the input.
+- Animate a small luminous point along a thin decorative line.
+- Use a brief ink-like reveal for placeholder text only.
+- Respect reduced-motion preferences.
+
+Do not animate a second copy of the typed text over the input.
+
+Do not use the handwriting effect for passwords, code editors, or sensitive fields.
+
+SEARCH BEHAVIOR:
+
+- Enter submits the search.
+- Escape closes suggestions.
+- Arrow keys navigate suggestions.
+- Suggestions must be keyboard accessible.
+- Search history must be optional.
+- Query parameters must be handled safely.
+- Empty queries must not generate unnecessary API calls.
+- Loading states must not freeze the interface.
+- Failed requests must show recoverable errors.
+
+Provide categories such as:
+- All.
+- Web.
+- AI Research.
+- Markets.
+- Tools.
+
+Each category must have meaningful behavior.
+
+Do not present a local filter as a live internet search.
+
+--------------------------------------------------
+7. SEARCH AND AI INTEGRATION ARCHITECTURE
+--------------------------------------------------
+
+Create a provider-based search architecture.
+
+Define a common search provider interface.
+
+Possible provider capabilities:
+- Web search.
+- Result titles.
+- Result URLs.
+- Result snippets.
+- Source attribution.
+- Optional publication dates.
+
+Select an appropriate search provider based on available credentials.
+
+Never assume that an API key exists.
+
+Never hardcode API secrets.
+
+Create environment-variable documentation.
+
+Example environment variables:
+
+SEARCH_API_KEY=
+AI_API_KEY=
+MARKET_DATA_API_KEY=
+DATABASE_URL=
+
+Use provider-specific variable names if necessary.
+
+Keep secrets exclusively on the server.
+
+Create server-side endpoints for integrations.
+
+Validate all external requests and user inputs.
+
+Add:
+- Request timeouts.
+- Reasonable response-size limits.
+- Rate limiting where appropriate.
+- Error handling.
+- Safe output rendering.
+- Basic abuse protection.
+
+Do not assume that every provider has the same response schema.
+
+Normalize provider results into internal application types.
+
+For AI-generated answers:
+- Use a configured model API.
+- Clearly distinguish generated explanations from retrieved source content.
+- Include source references only when supported by retrieved data.
+- Do not invent URLs or citations.
+- Handle provider failures gracefully.
+
+If credentials are unavailable, the application must still start and explain which integrations are disabled.
+
+--------------------------------------------------
+8. FUTURE AUTOMATION ARCHITECTURE
+--------------------------------------------------
+
+Design the application for future expansion.
+
+Potential future modules:
+- Automated research workflows.
+- Market alerts.
+- Portfolio analytics.
+- Paper-trading strategies.
+- Scheduled reports.
+- AI-powered developer utilities.
+- Additional search providers.
+- External tool integrations.
+
+Use clear module boundaries.
+
+Suggested structure:
+
+src/
+  app/
+  components/
+    layout/
+    navigation/
+    search/
+    universe/
+    charts/
+    tools/
+    workspace/
+  features/
+    search/
+    research/
+    markets/
+    paper-trading/
+    workspace/
+  lib/
+    providers/
+    validation/
+    security/
+    database/
+  types/
+  config/
+
+Adapt this structure if a more appropriate Next.js convention is required.
+
+Define shared types and service interfaces.
+
+Avoid putting all business logic in a single component.
+
+A new tool should ideally require:
+1. A tool definition.
+2. Its implementation.
+3. A route or panel.
+4. Any required server-side integration.
+5. Tests and configuration.
+
+Do not build an unnecessarily complex plugin runtime for the first release.
+
+Prefer a simple, typed, maintainable registry.
+
+--------------------------------------------------
+9. NAVIGATION AND RESPONSIVE DESIGN
+--------------------------------------------------
+
+Create a premium navigation system.
+
+Desktop:
+- Brand at the left.
+- Main navigation.
+- Search shortcut.
+- Workspace access.
+- Settings.
+- Clearly labeled status indicators.
+
+Mobile:
+- Compact header.
+- Accessible navigation menu.
+- Full-width search.
+- Simplified universe effects.
+- Responsive cards and charts.
+- Touch-friendly controls.
+
+Use consistent page transitions.
+
+Avoid excessive animation between routes.
+
+Maintain readable contrast.
+
+Ensure all controls have visible focus states.
+
+Use semantic HTML and accessible labels.
+
+--------------------------------------------------
+10. BACKEND AND DATA PERSISTENCE
+--------------------------------------------------
+
+Keep the frontend deployable on Vercel.
+
+Use server-side route handlers for integrations.
+
+If persistence is required, use PostgreSQL through Neon.
+
+Create database tables only when the corresponding feature needs them.
+
+Possible entities:
+- Users.
+- Search history.
+- Saved research.
+- Watchlists.
+- Paper portfolios.
+- Simulated orders.
+- User preferences.
+
+Use migrations or a documented schema setup process.
+
+Do not create fake authentication.
+
+If authentication is implemented:
+- Use a maintained authentication solution.
+- Protect private routes.
+- Verify authorization on the server.
+- Validate session state.
+- Prevent users from accessing other users' records.
+- Never rely on client-side checks alone.
+
+If authentication is outside the initial scope, implement a useful guest mode.
+
+Do not require database configuration merely to render the homepage.
+
+--------------------------------------------------
+11. SECURITY REQUIREMENTS
+--------------------------------------------------
+
+Treat security as a core engineering requirement.
+
+Implement appropriate safeguards:
+- Server-side API-key handling.
+- Input validation.
+- Safe rendering of external content.
+- URL validation where applicable.
+- Request timeouts.
+- Rate limiting for expensive endpoints.
+- Appropriate security headers.
+- Safe error responses.
+- Protection against unauthorized data access.
+- No secrets in source code.
+- No secrets in client-side bundles.
+- No unrestricted server-side URL fetching.
+- No arbitrary shell-command execution.
+- No unsafe dynamic code execution.
+
+For URL-analysis tools, analyze the supplied URL string without automatically visiting arbitrary destinations.
+
+If URL fetching is later implemented, add strict SSRF protection, including restrictions on private IP ranges, localhost, redirects, and DNS resolution.
+
+Do not build tools that access private systems without authorization.
+
+Cybersecurity utilities should be educational, defensive, and safe by default.
+
+--------------------------------------------------
+12. FINANCIAL SAFETY AND DATA ACCURACY
+--------------------------------------------------
+
+Market charts must clearly identify:
+- Data provider.
+- Instrument.
+- Currency where applicable.
+- Last update time.
+- Whether the data is delayed.
+- Whether the data is live, historical, or simulated.
+
+Do not promise guaranteed returns.
+
+Do not fabricate trading performance.
+
+Do not display randomly generated prices as actual market prices.
+
+Paper trading must use an explicitly simulated environment.
+
+Never execute real orders in the initial prototype.
+
+If live market data is unavailable, show a clear configuration message or a clearly labeled historical/demo dataset.
+
+--------------------------------------------------
+13. PERFORMANCE AND RELIABILITY
+--------------------------------------------------
+
+The interface must feel fast even when the universe is rendering.
+
+Implement:
+- Lazy loading.
+- Code splitting.
+- Dynamic imports for heavy visual components.
+- Image optimization.
+- Efficient animation loops.
+- Cleanup of event listeners.
+- Cancellation of obsolete search requests.
+- Appropriate caching.
+- Responsive chart rendering.
+- Graceful API failures.
+- Loading skeletons.
+- Error boundaries.
+- Accessible reduced-motion behavior.
+
+Avoid unnecessary rerenders.
+
+Do not create new animation loops on every React render.
+
+Clean up Three.js resources when components unmount.
+
+Avoid loading large textures on the initial critical rendering path.
+
+Do not sacrifice the search experience for decorative effects.
+
+--------------------------------------------------
+14. ERROR HANDLING
+--------------------------------------------------
+
+Handle at least these scenarios:
+
+- Missing API credentials.
+- Invalid search input.
+- Search provider unavailable.
+- AI provider unavailable.
+- Market-data provider unavailable.
+- Database unavailable.
+- Network timeout.
+- Invalid external response.
+- Unsupported chart data.
+- WebGL unavailable.
+- Mobile viewport.
+- Empty watchlist.
+- Empty research history.
+- Invalid configuration.
+- Failed persistence operation.
+
+Display clear user-facing messages.
+
+Do not expose secrets, internal stack traces, or sensitive database details.
+
+The application must remain usable when optional integrations fail.
+
+--------------------------------------------------
+15. TESTING REQUIREMENTS
+--------------------------------------------------
+
+Write meaningful tests.
+
+At minimum:
+- Search input validation.
+- Search provider normalization.
+- API error handling.
+- Tool registry validation.
+- URL analyzer behavior.
+- Paper-trading calculations if implemented.
+- Market-data normalization.
+- Core UI rendering.
+
+Run the available project checks.
+
+Verify:
+- Dependency installation.
+- TypeScript compilation.
+- Linting.
+- Production build.
+- Route rendering.
+- Missing environment variables.
+- API error states.
+- Responsive layout.
+
+Fix errors discovered during testing.
+
+Do not report tests as passed unless they were actually executed.
+
+Do not claim the application has zero bugs.
+
+If an environment prevents a test from running, document the limitation.
+
+--------------------------------------------------
+16. HACKATHON PRESENTATION
+--------------------------------------------------
+
+Create a compelling first impression.
+
+The homepage should immediately show:
+- The living Earth.
+- Moving satellites.
+- A premium search interface.
+- A clear explanation of the product.
+- Quick access to real features.
+
+Include a concise product description:
+
+"NEXORA transforms search into an interactive intelligence workspace, combining AI-assisted research, market visualization, and modular digital tools in one cinematic interface."
+
+Create an onboarding flow that explains the major features.
+
+Add an interactive product tour only if it can be implemented cleanly.
+
+Provide a demo mode for judges.
+
+Demo mode must:
+- Clearly identify simulated information.
+- Avoid requiring private API credentials.
+- Demonstrate core navigation.
+- Demonstrate search interactions.
+- Demonstrate a sample research workflow.
+- Demonstrate chart interactions.
+- Demonstrate at least one working utility.
+
+Do not fabricate real users, real transactions, live market activity, or independent performance results.
+
+Prepare a README containing:
+- Product overview.
+- Feature list.
+- Technology stack.
+- Architecture.
+- Prerequisites.
+- Local setup.
+- Environment variables.
+- Development commands.
+- Testing commands.
+- Deployment instructions.
+- Known limitations.
+- Future roadmap.
+
+--------------------------------------------------
+17. IMPLEMENTATION PROCESS
+--------------------------------------------------
+
+Work in deliberate phases.
+
+PHASE 1 — INSPECT AND PLAN
+
+Inspect the existing repository.
+
+Preserve useful existing work.
+
+Identify the framework, package manager, current dependencies, and deployment configuration.
+
+Write a concise implementation plan.
+
+PHASE 2 — BUILD THE FOUNDATION
+
+Implement:
+- Application structure.
+- Design tokens.
+- Shared layout.
+- Navigation.
+- Responsive page structure.
+- Error boundaries.
+
+PHASE 3 — BUILD THE UNIVERSE
+
+Implement:
+- Earth.
+- Atmosphere.
+- Star field.
+- Satellite orbits.
+- Performance controls.
+- Reduced-motion fallback.
+
+PHASE 4 — BUILD THE CORE SEARCH
+
+Implement:
+- Search input.
+- Keyboard interactions.
+- Suggestions.
+- Search categories.
+- Provider abstraction.
+- Search results.
+- Loading and error states.
+
+PHASE 5 — BUILD THE FIVE APPLICATION AREAS
+
+Complete:
+- Home.
+- Research.
+- Markets.
+- Tool Lab.
+- Workspace.
+
+Each route must be functional to the extent documented.
+
+PHASE 6 — INTEGRATIONS
+
+Implement available providers.
+
+Document missing credentials.
+
+Never replace a missing integration with an unlabeled fake implementation.
+
+PHASE 7 — QUALITY ASSURANCE
+
+Run:
+- Type checking.
+- Linting.
+- Tests.
+- Production build.
+
+Resolve the errors that can be reproduced.
+
+PHASE 8 — DEPLOYMENT
+
+Prepare the project for Vercel.
+
+Document environment variables.
+
+Ensure optional integrations do not prevent the application from starting.
+
+Verify deployment-specific routing and API behavior.
+
+If deployment tools are available and authorization has been provided, deploy the application and report the actual result.
+
+Otherwise, provide exact deployment instructions.
+
+--------------------------------------------------
+18. DEFINITION OF DONE
+--------------------------------------------------
+
+The first release is complete only when:
+
+1. The application has at least five distinct application areas.
+2. Navigation works.
+3. The main search field accepts and submits queries.
+4. Search results come from a real configured provider or are explicitly identified as demonstration data.
+5. The Earth and satellites animate when WebGL is available.
+6. A fallback works when WebGL is unavailable.
+7. The market interface renders valid chart data.
+8. The application never misrepresents simulated prices as live data.
+9. At least several tool utilities perform real operations.
+10. Errors are presented gracefully.
+11. Mobile layouts remain usable.
+12. Keyboard navigation works for the main interactions.
+13. Type checking and production build are attempted.
+14. Executed tests and unresolved issues are documented.
+15. Environment variables are documented.
+16. No API secrets are exposed in client-side code.
+17. The README explains local setup and deployment.
+18. Future tools can be integrated without rewriting the entire application.
+
+Start by inspecting the existing project and selecting the simplest reliable architecture that satisfies these requirements.
+
+Then implement the application.
+
+Do not stop after generating a plan or a homepage.
+
+If the available context or generation budget is insufficient to complete everything at once, finish the current phase in a buildable state, summarize what has actually been implemented, identify the remaining phases, and continue from the existing code without unnecessarily rewriting completed work.

@@ -1,0 +1,6 @@
+{
+  "name": "NEXORA — Intelligence Beyond Search",
+  "description": "Explore the web. Understand the universe. Control your digital world with AI-powered search, deep research, market intelligence, and modular tools.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
